@@ -1,27 +1,23 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 
-interface Task {
-    title: string;
-    desc: string;
-}
 
-const Page: React.FC = () => {
+const Page = () => {
     
-    const removeL = (key: string, i: number) => {
-        const data = JSON.parse(localStorage.getItem(key)!);
+    const removeL = (key, i) => {
+        const data = JSON.parse(localStorage.getItem(key));
         data.splice(i, 1);
         localStorage.setItem(key, JSON.stringify(data));
     };
     
 
-    const [title, setTitle] = useState<string>("");
-    const [desc, setDesc] = useState<string>("");
-    const [mainTask, setMainTask] = useState<Task[]>([]);
-    const [completed, setcompleted] = useState<Task[]>([]);
+    const [title, setTitle] = useState("");
+    const [desc, setDesc] = useState("");
+    const [mainTask, setMainTask] = useState([]);
+    const [completed, setcompleted] = useState([]);
     
 
-    const formHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    const formHandler = (e) => {
         e.preventDefault();
         console.log(title);
         console.log(desc);
@@ -50,25 +46,25 @@ const Page: React.FC = () => {
         }
       }, [mainTask]);
     useEffect(() => {
-      const rdata = localStorage.getItem("sdata")!
+      const rdata = localStorage.getItem("sdata")
       const fdata = JSON.parse(rdata)
         setMainTask(fdata)
       
-        const rdata2 = localStorage.getItem("sdata2")!
+        const rdata2 = localStorage.getItem("sdata2")
       const fdata2 = JSON.parse(rdata2)
       setcompleted(fdata2)
     }, [])
     
     
 
-    const eventHandler = (i: number) => {
+    const eventHandler = (i) => {
         let copyTask = [...mainTask];
         copyTask.splice(i, 1);
         setMainTask(copyTask);
         removeL("sdata",i)
         removeL("sdata2",i)
     };
-    const eventHandler2 = (i: number) => {
+    const eventHandler2 = (i) => {
         let copyMainTask = [...mainTask];
         let completedTask = copyMainTask.splice(i, 1)[0];
         setMainTask(copyMainTask);
@@ -76,14 +72,14 @@ const Page: React.FC = () => {
         removeL("sdata",i)
         removeL("sdata2",i)
     };
-    const eventHandler3 = (i: number) => {
+    const eventHandler3 = (i) => {
         let copyTask = [...completed];
         copyTask.splice(i, 1);
         setcompleted(copyTask);
         removeL("sdata",i)
         removeL("sdata2",i)
     };
-    const eventHandler4 = (i:number)=>{
+    const eventHandler4 = (i)=>{
     const selectedTask = mainTask[i];
     const etitle = selectedTask.title;
     const edesc = selectedTask.desc;
@@ -93,12 +89,12 @@ const Page: React.FC = () => {
         setTitle(etitle)
         setDesc(edesc)
     }
-    let sample: JSX.Element = <h2>No Task Available</h2>;
+    let sample = <h2>No Task Available</h2>;
 
     if (mainTask.length > 0) {
         sample = (
             <>
-                {mainTask.map((t: Task, i: number) => (
+                {mainTask.map((t, i) => (
                     <div key={i} className='justify-between flex mb-2'>
                         <h2>{t.title}</h2>
                         <h2>{t.desc}</h2>
@@ -128,7 +124,7 @@ const Page: React.FC = () => {
             </div>
             <div className='width-full height-full'>            
     <h1 className='mt-10 mb-10 text-center font-bold text-2xl'> COMPLETED</h1>
-    {completed.map((t: Task, i: number) => (
+    {completed.map((t, i) => (
         <div key={i} className='justify-around flex mb-2'>
             <h2>{t.title}</h2>
             <h2>{t.desc}</h2>
